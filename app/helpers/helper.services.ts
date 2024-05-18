@@ -7,6 +7,7 @@ import userServices from "../users/user.services";
 import { userResponses } from "../users/user.responses";
 
 import reviewServices from "../reviews/review.services";
+import appointmentServices from "../appointments/appointment.services";
 
 const find = async (query: Partial<IHelper>) => await helperRepo.find(query);
 
@@ -64,8 +65,6 @@ const addReview = async (helperId: string, username: string, review: { rating: n
 	try {
 		const helper = await helperRepo.findOne({ _id: helperId, isDeleted: false });
 		if (!helper) throw helperResponses.NOT_FOUND;
-		const user = await userServices.findOne({ username, isDeleted: false });
-		if (!user) throw userResponses.NOT_FOUND;
 
 		const findReviewQuery = { user: username, helper: helper.name, isDeleted: false };
 		const alreadyReviewed = await reviewServices.findOne(findReviewQuery);
@@ -83,6 +82,27 @@ const addReview = async (helperId: string, username: string, review: { rating: n
 	}
 };
 
+const createAppointment = async (helperId: string, username: string, dateTime: Date) => {
+	try {
+		const helper = await helperRepo.findOne({ _id: helperId, isDeleted: false });
+		if (!helper) throw helperResponses.NOT_FOUND;
+
+		const findAppointmentQuery = { user: username, helper: helper.name, isDeleted: false };
+		const alreadyAppointed = await appointmentServices.findOne(findAppointmentQuery);
+		if (alreadyAppointed) {
+			const updatedAppointment = await appointmentServices.findOneAndUpdate(findAppointmentQuery, { dateTime });
+			if (!updatedAppointment) throw helperResponses.APPOINTMENT_UPDATE_FAILED;
+			return helperResponses.APPOINTMENT_UPDATE_SUCCESSFUL;
+		}
+
+		const result = await appointmentServices.insertOne({ helper: helper.name, user: username, dateTime });
+		return helperResponses.APPOINTMENT_CREATION_SUCCESSFUL;
+	} catch (error: any) {
+		if (error.statusCode) throw helperResponses.APPOINTMENT_CREATION_FAILED;
+		throw helperResponses.SERVER_ERR;
+	}
+};
+
 export default {
 	find,
 	findOne,
@@ -91,4 +111,5 @@ export default {
 	findOneAndUpdate,
 	deleteOne,
 	addReview,
+	createAppointment,
 };

@@ -64,4 +64,19 @@ router.post("/:helperId/review", async (req, res, next) => {
 	}
 });
 
+router.post("/:helperId/appointment", async (req, res, next) => {
+	try {
+		const { helperId } = req.params;
+		const { dateTime } = req.body;
+		const { currUser } = req;
+
+		if (currUser) {
+			const result = await helperServices.createAppointment(helperId, currUser.username as string, dateTime);
+			res.send(new ResponseHandler(result));
+		}
+	} catch (e) {
+		next(e);
+	}
+});
+
 export default new Route("/api/helper", router);

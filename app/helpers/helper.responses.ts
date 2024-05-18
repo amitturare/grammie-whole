@@ -45,4 +45,20 @@ export const helperResponses: IHelperResponses = {
 		statusCode: 400,
 		message: "REVIEW: UPDATE FAILED",
 	},
+	APPOINTMENT_CREATION_SUCCESSFUL: {
+		statusCode: 200,
+		message: "APPOINTMENT: CREATED SUCCESSFULLY",
+	},
+	APPOINTMENT_CREATION_FAILED: {
+		statusCode: 400,
+		message: "APPOINTMENT: CREATION FAILED",
+	},
+	APPOINTMENT_UPDATE_SUCCESSFUL: {
+		statusCode: 200,
+		message: "APPOINTMENT: UPDATED SUCCESSFULLY",
+	},
+	APPOINTMENT_UPDATE_FAILED: {
+		statusCode: 400,
+		message: "APPOINTMENT: UPDATE FAILED",
+	},
 };
