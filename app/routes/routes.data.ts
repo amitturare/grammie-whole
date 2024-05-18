@@ -1,7 +1,7 @@
 import { match } from "path-to-regexp";
 
 import userRoutes from "../users/user.routes";
-import helperRoutes from "../helper/helper.routes";
+import helperRoutes from "../helpers/helper.routes";
 import authRoutes from "../auth/auth.routes";
 
 import { ExcludedRoutes, Route } from "./routes.types";
