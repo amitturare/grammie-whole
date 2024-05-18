@@ -1,4 +1,4 @@
-import { model, Document } from "mongoose";
+import { model } from "mongoose";
 import { BaseSchema } from "../utils/base-schema";
 
 import { UserDocument } from "./user.types";

@@ -10,11 +10,10 @@ export interface IUserResponses {
 	};
 }
 
-export const user = ZBase.extend({
-	_id: z.string().optional(),
+export const ZUser = ZBase.extend({
 	role: z.string().optional(),
 	username: z.string(),
 	password: z.string(),
 });
-export interface IUser extends z.infer<typeof user> {}
+export interface IUser extends z.infer<typeof ZUser> {}
 export type UserDocument = Document & IUser;

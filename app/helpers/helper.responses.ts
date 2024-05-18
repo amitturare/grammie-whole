@@ -29,4 +29,20 @@ export const helperResponses: IHelperResponses = {
 		statusCode: 400,
 		message: "HELPER: INSERT FAILED",
 	},
+	REVIEW_INSERT_SUCCESSFUL: {
+		statusCode: 200,
+		message: "REVIEW: INSERTED SUCCESSFULLY",
+	},
+	REVIEW_INSERT_FAILED: {
+		statusCode: 400,
+		message: "REVIEW: INSERT FAILED",
+	},
+	REVIEW_UPDATE_SUCCESSFUL: {
+		statusCode: 200,
+		message: "REVIEW: UPDATED SUCCESSFULLY",
+	},
+	REVIEW_UPDATE_FAILED: {
+		statusCode: 400,
+		message: "REVIEW: UPDATE FAILED",
+	},
 };

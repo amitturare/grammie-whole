@@ -6,9 +6,9 @@ const find = async (query: Partial<IUser>) => await userModel.find(query);
 
 const findOne = async (query: Partial<IUser>) => await userModel.findOne(query);
 
-const insertOne = async (menuItem: IUser) => await userModel.create(menuItem);
+const insertOne = async (user: IUser) => await userModel.create(user);
 
-const insertMany = async (menuItems: IUser[]) => await userModel.insertMany(menuItems);
+const insertMany = async (users: IUser[]) => await userModel.insertMany(users);
 
 const findOneAndUpdate = async (findQuery: Partial<IUser>, updateObj: Partial<IUser>) =>
 	await userModel.findOneAndUpdate(findQuery, updateObj);

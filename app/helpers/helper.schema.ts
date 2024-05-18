@@ -9,7 +9,7 @@ const helperSchema = new BaseSchema({
 		required: true,
 		unique: true,
 	},
-	helper: {
+	name: {
 		type: String,
 		required: true,
 	},

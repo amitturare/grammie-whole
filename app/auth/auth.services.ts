@@ -19,7 +19,7 @@ const login = async (credentials: ICredentials) => {
 		const { JWT_SECRET } = process.env;
 		const token = jwt.sign({ username, role }, JWT_SECRET || "");
 
-		return { token, user: user.username };
+		return { token, user: username };
 	} catch (e) {
 		throw authResponses.INVALID_CREDENTIALS;
 	}

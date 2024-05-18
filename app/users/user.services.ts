@@ -18,20 +18,20 @@ async function findOne(query: Partial<IUser>, safe: boolean = false) {
 	return result as UserDocument;
 }
 
-const insertOne = async (menuItem: IUser) => {
+const insertOne = async (data: IUser) => {
 	try {
-		const insertedMenuItem = await userRepo.insertOne(menuItem);
-		return insertedMenuItem;
+		const result = await userRepo.insertOne(data);
+		return result;
 	} catch (error: any) {
 		if (error.statusCode) throw userResponses.INSERT_FAILED;
 		throw userResponses.SERVER_ERR;
 	}
 };
 
-const insertMany = async (menuItems: IUser[]) => {
+const insertMany = async (data: IUser[]) => {
 	try {
-		const insertedMenuItems = await userRepo.insertMany(menuItems);
-		return insertedMenuItems;
+		const result = await userRepo.insertMany(data);
+		return result;
 	} catch (error: any) {
 		if (error.statusCode) throw userResponses.INSERT_FAILED;
 		throw userResponses.SERVER_ERR;
