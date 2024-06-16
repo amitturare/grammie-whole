@@ -1,4 +1,4 @@
-import { Application, json, Request, Response, NextFunction } from "express";
+import { Application, json, Request, Response, NextFunction, urlencoded } from "express";
 import cors from "cors";
 
 import { excludedRoutes, routes } from "./routes.data";
@@ -6,10 +6,14 @@ import { ResponseHandler } from "../utils/response-handler";
 import { validateToken } from "../utils/authorization";
 
 export const registerMiddlewares = (app: Application) => {
+	const corsOptions = {
+		origin: "*",
+	};
+	app.use(cors(corsOptions));
 	app.use(json());
-	app.use(cors());
+	app.use(urlencoded({ extended: true }));
 
-	app.use(validateToken(excludedRoutes));
+	// app.use(validateToken(excludedRoutes));
 
 	for (let route of routes) {
 		app.use(route.path, route.router);

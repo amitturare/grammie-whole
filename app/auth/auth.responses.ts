@@ -1,16 +1,20 @@
-import { IAuthResponses } from "./auth.types";
+import { IResponses } from "../utils/base-schema";
 
-export const authResponses: IAuthResponses = {
-	INVALID_CREDENTIALS: {
-		statusCode: 400,
-		message: "INVALID CREDENTIALS",
+export const authResponses: IResponses = {
+	LOGIN_FAILED: {
+		statusCode: 401,
+		message: "AUTH: LOGIN FAILED",
 	},
-	USER_ALREADY_EXISTS: {
-		statusCode: 400,
-		message: "USER ALREADY EXISTS",
+	NOT_FOUND: {
+		statusCode: 404,
+		message: "AUTH: USER NOT FOUND",
 	},
-	REGISTRATION_FAILED: {
-		statusCode: 400,
-		message: "REGISTRATION FAILED",
+	UNAUTHORIZED: {
+		statusCode: 401,
+		message: "AUTH: UNAUTHORIZED",
+	},
+	SERVER_ERR: {
+		statusCode: 500,
+		message: "AUTH: SERVER ERR",
 	},
 };

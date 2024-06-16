@@ -1,21 +1,14 @@
-import { model } from "mongoose";
+import { Types, model } from "mongoose";
 import { BaseSchema } from "../utils/base-schema";
 
-import { AppointmentDocument } from "./appointment.types";
+import { UserDocument } from "./user.types";
 
 const appointmentSchema = new BaseSchema({
-	user: {
-		type: String,
-		required: true,
-	},
-	helper: {
-		type: String,
-		required: true,
-	},
-	dateTime: {
-		type: Date,
-		required: true,
-	},
+	userId: { type: Types.ObjectId, ref: "BaseUser", required: true },
+	caretakerId: { type: Types.ObjectId, ref: "BaseUser", required: true },
+	dateTime: { type: Date, required: true },
+	description: { type: String, required: true },
+	status: { type: String, enum: ["pending", "accepted", "rejected"], default: "pending" },
 });
 
-export const appointmentModel = model<AppointmentDocument>("appointments", appointmentSchema);
+export const appointmentModel = model("Appointment", appointmentSchema);

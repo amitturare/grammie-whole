@@ -1,35 +1,20 @@
-import { NextFunction, Request, Response, Router } from "express";
-
-import authServices from "./auth.services";
-import { LoginValidations, SignupValidations } from "./auth.validations";
+import { Router } from "express";
 
 import { Route } from "../routes/routes.types";
 import { ResponseHandler } from "../utils/response-handler";
-import { ICredentials } from "./auth.types";
+
+import authServices from "./auth.services";
 
 const router = Router();
 
-router.post(
-	"/login",
-	...LoginValidations,
-	async (req: Request<any, any, ICredentials, any>, res: Response, next: NextFunction) => {
-		try {
-			const { username, password } = req.body;
-			const result = await authServices.login({ username, password });
-			res.send(new ResponseHandler(result));
-		} catch (e) {
-			next(e);
-		}
-	}
-);
-
-router.post("/signup", ...SignupValidations, async (req, res, next) => {
+router.post("/google", async (req, res, next) => {
 	try {
-		const result = await authServices.signup(req.body);
-		res.send(new ResponseHandler(result));
+		const token = req.headers.authorization;
+		const payload = await authServices.verifyGoogleCredentials(token as string);
+		res.send(new ResponseHandler(payload));
 	} catch (e) {
 		next(e);
 	}
 });
 
-export default new Route("/auth", router);
+export default new Route("/api/auth", router);

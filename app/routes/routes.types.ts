@@ -8,7 +8,7 @@ export type ExcludedRoute = {
 export type ExcludedRoutes = ExcludedRoute[];
 
 export class Route {
-	private static registeredRoutes: Route[] = [];
+	static registeredRoutes: Route[] = [];
 
 	constructor(public path: string, public router: Router) {
 		if (!path.startsWith("/")) {

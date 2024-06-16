@@ -1,46 +1,37 @@
-import { compare } from "bcrypt";
-import jwt from "jsonwebtoken";
-
-import userServices from "../users/user.services";
-import { IUser } from "../users/user.types";
+import { OAuth2Client } from "google-auth-library";
+import { google } from "googleapis";
+import { sign } from "jsonwebtoken";
 
 import { authResponses } from "./auth.responses";
-import { ICredentials } from "./auth.types";
 
-import { encrypt } from "../utils/encrypt";
+import userServices from "../users/user.services";
 
-const login = async (credentials: ICredentials) => {
+const verifyGoogleCredentials = async (accessToken: string) => {
 	try {
-		const user = await userServices.findOne({ username: credentials.username });
-		const didMatch = await compare(credentials.password, user.password);
-		if (!didMatch) throw authResponses.INVALID_CREDENTIALS;
+		const { GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_CLIENT_SECRET } = process.env;
+		const client = new OAuth2Client(GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_CLIENT_SECRET);
+		const tokenInfo = await client.verifyIdToken({
+			idToken: accessToken,
+			audience: GOOGLE_AUTH_CLIENT_ID,
+		});
+		const profile: any = tokenInfo.getPayload();
+		if (!profile) throw authResponses.UNAUTHORIZED;
 
-		const { username, role } = user;
+		const { email, picture: pictureUrl } = profile;
+		if (!email || !pictureUrl) throw authResponses.LOGIN_FAILED;
+
+		const userData = await userServices.findOneAndUpdate({ email }, { pictureUrl });
+		if (!userData) throw authResponses.NOT_FOUND;
+
 		const { JWT_SECRET } = process.env;
-		const token = jwt.sign({ username, role }, JWT_SECRET || "");
-
-		return { token, user: username };
-	} catch (e) {
-		throw authResponses.INVALID_CREDENTIALS;
-	}
-};
-
-const signup = async (userData: IUser) => {
-	try {
-		const alreadyRegistered = await userServices.findOne(userData, true);
-		if (alreadyRegistered) throw authResponses.USER_ALREADY_EXISTS;
-
-		const encryptedPass = await encrypt(userData.password);
-		userData = { ...userData, password: encryptedPass };
-		userServices.insertOne(userData);
-
-		return userData;
-	} catch (e) {
-		throw authResponses.REGISTRATION_FAILED;
+		const token = sign({ id: userData._id, role: userData.role }, JWT_SECRET || "");
+		return { token, role: userData.role };
+	} catch (error: any) {
+		if (error.statusCode) throw error;
+		throw authResponses.SERVER_ERR;
 	}
 };
 
 export default {
-	login,
-	signup,
+	verifyGoogleCredentials,
 };

@@ -1,7 +1,7 @@
-// Saturday 18 May, 2024
+import { lockUploads } from "./uploads/dummy";
 
-import { config } from "dotenv";
-config();
+import { validateENV } from "./app/utils/validate-env";
+validateENV();
 
 import { startServer } from "./app/app";
 startServer();

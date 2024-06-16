@@ -6,6 +6,6 @@ export const connectToDB = async () => {
 		console.log("CONNECTED TO MONGO DB");
 		return true;
 	} catch (e) {
-		throw "FAILED TO CONNECT TO DB";
+		throw "FAILED TO CONNECT";
 	}
 };

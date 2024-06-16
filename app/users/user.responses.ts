@@ -1,6 +1,6 @@
-import { IUserResponses } from "./user.types";
+import { IResponses } from "../utils/base-schema";
 
-export const userResponses: IUserResponses = {
+export const userResponses: IResponses = {
 	SERVER_ERR: {
 		statusCode: 500,
 		message: "USER: SERVER ERR",
