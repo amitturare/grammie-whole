@@ -3,16 +3,12 @@ import { Types } from "mongoose";
 import userRepo from "./user.repo";
 import { sanitizeQueryObject } from "../utils/sanitize-queries";
 
-import { IUser, IUserPaginationSearchQueries } from "./user.types";
+import { IBaseUser } from "./user.types";
 import { userResponses } from "./user.responses";
 
-import enrollmentServices from "../enrollments/enrollment.services";
-import { enrollmentResponses } from "../enrollments/enrollment.responses";
-import { IEnrollment } from "../enrollments/enrollment.types";
+const find = async (query: Partial<IBaseUser>) => await userRepo.find(query);
 
-const find = async (query: Partial<IUser>) => await userRepo.find(query);
-
-const findOne = async (query: Partial<IUser>) => {
+const findOne = async (query: Partial<IBaseUser>) => {
 	try {
 		const result = await userRepo.findOne(query);
 		if (!result) throw userResponses.NOT_FOUND;
@@ -23,9 +19,9 @@ const findOne = async (query: Partial<IUser>) => {
 	}
 };
 
-const findDistinct = async (field: string) => {
+const findOneById = async (userId: string) => {
 	try {
-		const result = await userRepo.findDistinct(field);
+		const result = await userRepo.findOneById(new Types.ObjectId(userId));
 		if (!result) throw userResponses.NOT_FOUND;
 		return result;
 	} catch (error: any) {
@@ -34,58 +30,7 @@ const findDistinct = async (field: string) => {
 	}
 };
 
-const getUsersByStatus = async (
-	status: "unenrolled" | "enrolled" | "completed",
-	queryObject: IUserPaginationSearchQueries
-) => {
-	const sanitizedQueryObject = sanitizeQueryObject(queryObject);
-
-	switch (status) {
-		case "unenrolled":
-			const unenrolledUsers = await userRepo.findUnenrolledUsers(sanitizedQueryObject);
-			if (!unenrolledUsers) throw enrollmentResponses.NOT_FOUND;
-			return unenrolledUsers;
-		case "enrolled":
-			const enrolledUsers = await enrollmentServices.findEnrolledUsers(sanitizedQueryObject);
-			return enrolledUsers;
-		case "completed":
-			const completedUsers = await enrollmentServices.findCompletedUsers(sanitizedQueryObject);
-			return completedUsers;
-	}
-};
-
-const getUserStats = async (userId: string, fillEnrollments: boolean) => {
-	try {
-		const user = await findOne({ _id: new Types.ObjectId(userId) });
-		if (!user) throw userResponses.NOT_FOUND;
-		const activeEnrollment = await enrollmentServices.getActiveEnrolmentForUser(userId);
-
-		let enrollmentsUnderUser: IEnrollment[] = [];
-		if (fillEnrollments) {
-			enrollmentsUnderUser = await enrollmentServices.find({ userId: user._id });
-		}
-
-		const { _id, role, employeeId, firstName, lastName, email, department, designation } = user;
-
-		return {
-			_id,
-			role,
-			employeeId,
-			firstName,
-			lastName,
-			email,
-			department,
-			designation,
-			activeEnrollment,
-			...(fillEnrollments ? { enrollments: enrollmentsUnderUser } : {}),
-		};
-	} catch (error: any) {
-		if (error.statusCode) throw error;
-		throw userResponses.SERVER_ERR;
-	}
-};
-
-const insertOne = async (data: IUser) => {
+const insertOne = async (data: IBaseUser) => {
 	try {
 		const result = await userRepo.insertOne(data);
 		if (!result) throw userResponses.INSERT_FAILED;
@@ -96,20 +41,9 @@ const insertOne = async (data: IUser) => {
 	}
 };
 
-const insertMany = async (data: IUser[]) => {
+const findOneAndUpdate = async (userId: string, updateObj: Partial<IBaseUser>) => {
 	try {
-		const result = await userRepo.insertMany(data);
-		if (!result) throw userResponses.INSERT_FAILED;
-		return result;
-	} catch (error: any) {
-		if (error.statusCode) throw error;
-		throw userResponses.SERVER_ERR;
-	}
-};
-
-const findOneAndUpdate = async (findQuery: Partial<IUser>, updateObj: Partial<IUser>) => {
-	try {
-		const result = await userRepo.findOneAndUpdate(findQuery, updateObj);
+		const result = await userRepo.findOneAndUpdate(new Types.ObjectId(userId), updateObj);
 		if (!result) throw userResponses.UPDATE_FAILED;
 		return result;
 	} catch (error: any) {
@@ -118,9 +52,9 @@ const findOneAndUpdate = async (findQuery: Partial<IUser>, updateObj: Partial<IU
 	}
 };
 
-const deleteOne = async (query: Partial<IUser>) => {
+const deleteOne = async (userId: string) => {
 	try {
-		const result = await userRepo.findOneAndUpdate(query, { isDeleted: true });
+		const result = await userRepo.findOneAndUpdate(new Types.ObjectId(userId), { isDeleted: true });
 		if (!result) throw userResponses.DELETE_FAILED;
 		return userResponses.DELETE_SUCCESSFUL;
 	} catch (error: any) {
@@ -132,11 +66,8 @@ const deleteOne = async (query: Partial<IUser>) => {
 export default {
 	find,
 	findOne,
-	findDistinct,
-	getUsersByStatus,
-	getUserStats,
+	findOneById,
 	insertOne,
-	insertMany,
 	findOneAndUpdate,
 	deleteOne,
 };

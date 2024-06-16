@@ -32,6 +32,39 @@ const verifyGoogleCredentials = async (accessToken: string) => {
 	}
 };
 
+const authenticateWithGoogle = async (code: any) => {
+	try {
+		const { GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_CLIENT_SECRET, GOOGLE_AUTH_REDIRECT_URI } = process.env;
+		const client = new OAuth2Client(GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_CLIENT_SECRET, GOOGLE_AUTH_REDIRECT_URI);
+
+		const { tokens } = await client.getToken(code);
+		client.setCredentials(tokens);
+		const oauth2 = google.oauth2({
+			auth: client,
+			version: "v2",
+		});
+
+		const authData = await oauth2.userinfo.get();
+		const profile = authData.data;
+		if (!profile) throw authResponses.UNAUTHORIZED;
+
+		const { email, picture: pictureUrl } = profile;
+		if (!email || !pictureUrl) {
+			throw authResponses.LOGIN_FAILED;
+		}
+        
+		const data = await userServices.findOneAndUpdate({ email }, { pictureUrl });
+
+		const { JWT_SECRET } = process.env;
+		const token = sign({ email: data.email, role: data.role }, JWT_SECRET || "");
+		return { token };
+	} catch (error: any) {
+		if (error.statusCode) throw error;
+		throw authResponses.SERVER_ERR;
+	}
+};
+
 export default {
 	verifyGoogleCredentials,
+	authenticateWithGoogle,
 };

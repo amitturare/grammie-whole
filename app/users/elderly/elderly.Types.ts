@@ -22,5 +22,5 @@ export const ZElderlyUser = ZBaseUser.extend({
 	medications: z.array(ZMedication).optional(),
 });
 
-export interface IElderlyUser extends z.infer<typeof ZElderlyUser> {}
-export type ElderlyUserDocument = Document & IElderlyUser;
+export interface IElderly extends z.infer<typeof ZElderlyUser> {}
+export type ElderlyUserDocument = Document & IElderly;

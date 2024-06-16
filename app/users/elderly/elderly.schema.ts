@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 import { baseUserModel } from "../user.schema";
 
-import { ElderlyUserDocument } from "./elderly.Types";
+import { ElderlyUserDocument } from "./elderly.types";
 
 const medicalHistorySchema = new Schema({
 	condition: { type: String },
@@ -23,4 +23,4 @@ const elderlyUserSchema = new Schema({
 	medications: [medicationSchema],
 });
 
-export const elderlyUser = baseUserModel.discriminator<ElderlyUserDocument>("User", elderlyUserSchema);
+export const elderlyUserModel = baseUserModel.discriminator<ElderlyUserDocument>("User", elderlyUserSchema);

@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { config } from "dotenv";
-import { IUser } from "../users/user.types";
 
 const envObject = z.object({
 	PORT: z.coerce.number(),
@@ -8,6 +7,7 @@ const envObject = z.object({
 	MONGO_URI: z.string(),
 	GOOGLE_AUTH_CLIENT_ID: z.string(),
 	GOOGLE_AUTH_CLIENT_SECRET: z.string(),
+	GOOGLE_AUTH_CALLBACK_URI: z.string(),
 });
 type Env = z.infer<typeof envObject>;
 

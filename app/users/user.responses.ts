@@ -14,7 +14,7 @@ export const userResponses: IResponses = {
 		message: "USER: UPDATE FAILED",
 	},
 	UPDATE_SUCCESSFUL: {
-		statusCode: 400,
+		statusCode: 200,
 		message: "USER: UPDATE SUCCESSFUL",
 	},
 	DELETE_FAILED: {
@@ -22,11 +22,15 @@ export const userResponses: IResponses = {
 		message: "USER: DELETE FAILED",
 	},
 	DELETE_SUCCESSFUL: {
-		statusCode: 400,
+		statusCode: 200,
 		message: "USER: DELETE SUCCESSFUL",
 	},
 	INSERT_FAILED: {
 		statusCode: 400,
 		message: "USER: INSERT FAILED",
+	},
+	INSERT_SUCCESSFUL: {
+		statusCode: 200,
+		message: "USER: INSERT SUCCESSFUL",
 	},
 };
