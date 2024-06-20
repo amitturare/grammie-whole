@@ -5,6 +5,18 @@ export const careTakerResponses: IResponses = {
 		statusCode: 500,
 		message: "CARETAKER: SERVER ERR",
 	},
+	REGISTRATION_DATA_UNAVAILABLE: {
+		statusCode: 400,
+		message: "CARETAKER: REGISTRATION DATA UNAVAILABLE",
+	},
+	REGISTRATION_FAILED: {
+		statusCode: 400,
+		message: "CARETAKER: REGISTRATION FAILED",
+	},
+	REGISTRATION_SUCCESSFUL: {
+		statusCode: 200,
+		message: "CARETAKER: REGISTRATION SUCCESSFUL",
+	},
 	NOT_FOUND: {
 		statusCode: 404,
 		message: "CARETAKER: NOT FOUND",

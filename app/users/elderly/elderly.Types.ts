@@ -9,18 +9,26 @@ export const ZMedicalHistory = z.object({
 	treatments: z.array(z.string()).optional(),
 });
 
-export const ZMedication = z.object({ 
+export const ZMedication = z.object({
 	name: z.string().optional(),
 	dosage: z.string().optional(),
 	frequency: z.string().optional(),
-	prescribedBy: z.string().optional(),
 });
 
-export const ZElderlyUser = ZBaseUser.extend({
-	age: z.number(),
+export const ZElderly = ZBaseUser.extend({
 	medicalHistory: z.array(ZMedicalHistory).optional(),
 	medications: z.array(ZMedication).optional(),
 });
 
-export interface IElderly extends z.infer<typeof ZElderlyUser> {}
-export type ElderlyUserDocument = Document & IElderly;
+export interface IElderly extends z.infer<typeof ZElderly> {}
+export type ElderlyDocument = Document & IElderly;
+
+export const ZElderlyRegister = ZElderly.omit({
+	firstName: true,
+	lastName: true,
+	email: true,
+	pictureUrl: true,
+	role: true,
+});
+
+export interface IElderlyRegister extends z.infer<typeof ZElderlyRegister> {}

@@ -30,10 +30,10 @@ const findOneById = async (userId: string) => {
 	}
 };
 
-const insertOne = async (data: IBaseUser) => {
+const findOneByEmail = async (email: string) => {
 	try {
-		const result = await userRepo.insertOne(data);
-		if (!result) throw userResponses.INSERT_FAILED;
+		const result = await userRepo.findOneByEmail(email);
+		if (!result) throw userResponses.NOT_FOUND;
 		return result;
 	} catch (error: any) {
 		if (error.statusCode) throw error;
@@ -41,9 +41,24 @@ const insertOne = async (data: IBaseUser) => {
 	}
 };
 
-const findOneAndUpdate = async (userId: string, updateObj: Partial<IBaseUser>) => {
+const insertOne = async (data: Partial<IBaseUser>) => {
 	try {
-		const result = await userRepo.findOneAndUpdate(new Types.ObjectId(userId), updateObj);
+		const result = await userRepo.insertOne(data);
+		if (!result) throw userResponses.INSERT_FAILED;
+		return result;
+	} catch (error: any) {
+		console.log(error);
+		if (error.statusCode) throw error;
+		throw userResponses.SERVER_ERR;
+	}
+};
+
+const findOneAndUpdate = async (query: Partial<IBaseUser>, updateObj: Partial<IBaseUser>, safe: boolean = false) => {
+	try {
+		const result = await userRepo.findOneAndUpdate(query, updateObj);
+
+		if (safe) return result;
+
 		if (!result) throw userResponses.UPDATE_FAILED;
 		return result;
 	} catch (error: any) {
@@ -54,7 +69,7 @@ const findOneAndUpdate = async (userId: string, updateObj: Partial<IBaseUser>) =
 
 const deleteOne = async (userId: string) => {
 	try {
-		const result = await userRepo.findOneAndUpdate(new Types.ObjectId(userId), { isDeleted: true });
+		const result = await userRepo.findOneAndUpdate({ _id: new Types.ObjectId(userId) }, { isDeleted: true });
 		if (!result) throw userResponses.DELETE_FAILED;
 		return userResponses.DELETE_SUCCESSFUL;
 	} catch (error: any) {
@@ -67,6 +82,7 @@ export default {
 	find,
 	findOne,
 	findOneById,
+	findOneByEmail,
 	insertOne,
 	findOneAndUpdate,
 	deleteOne,

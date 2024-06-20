@@ -9,6 +9,8 @@ const eventSchema = new BaseSchema({
 	description: { type: String, required: true },
 	location: { type: String, required: true },
 	dateTime: { type: Date, required: true },
+	lastDateToEnrol: { type: Date, required: true },
+	cost: { type: Number, required: true },
 	participants: [{ type: Types.ObjectId, ref: "BaseUser" }],
 });
 

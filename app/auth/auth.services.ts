@@ -5,6 +5,7 @@ import { sign } from "jsonwebtoken";
 import { authResponses } from "./auth.responses";
 
 import userServices from "../users/user.services";
+import { travelimpactmodel } from "googleapis/build/src/apis/travelimpactmodel";
 
 const verifyGoogleCredentials = async (accessToken: string) => {
 	try {
@@ -48,15 +49,33 @@ const authenticateWithGoogle = async (code: any) => {
 		const profile = authData.data;
 		if (!profile) throw authResponses.UNAUTHORIZED;
 
-		const { email, picture: pictureUrl } = profile;
-		if (!email || !pictureUrl) {
+		const { email, picture: pictureUrl, given_name: firstName, family_name: lastName } = profile;
+		if (!email || !pictureUrl || !firstName || !lastName) {
 			throw authResponses.LOGIN_FAILED;
 		}
-        
-		const data = await userServices.findOneAndUpdate({ email }, { pictureUrl });
+
+		const userData = {
+			firstName: firstName.trim(),
+			lastName: lastName.trim(),
+			email: email.trim(),
+			pictureUrl: pictureUrl.trim(),
+		};
+
+		let user = await userServices.findOneAndUpdate(
+			{ email: userData.email },
+			{
+				pictureUrl: userData.pictureUrl,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+			},
+			true
+		);
+		if (!user) {
+			user = await userServices.insertOne(userData);
+		}
 
 		const { JWT_SECRET } = process.env;
-		const token = sign({ email: data.email, role: data.role }, JWT_SECRET || "");
+		const token = sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET || "");
 		return { token };
 	} catch (error: any) {
 		if (error.statusCode) throw error;

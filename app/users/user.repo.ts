@@ -10,15 +10,18 @@ const findOne = async (query: Partial<IBaseUser>) => await baseUserModel.findOne
 
 const findOneById = async (userId: Types.ObjectId) => await baseUserModel.findOne({ _id: userId, isDeleted: false });
 
-const insertOne = async (user: IBaseUser) => await baseUserModel.create(user);
+const findOneByEmail = async (email: string) => await baseUserModel.findOne({ email: email, isDeleted: false });
 
-const findOneAndUpdate = async (userId: Types.ObjectId, updateObj: Partial<IBaseUser>) =>
-	await baseUserModel.findOneAndUpdate({ _id: userId }, updateObj);
+const insertOne = async (user: Partial<IBaseUser>) => await baseUserModel.create(user);
+
+const findOneAndUpdate = async (query: Partial<IBaseUser>, updateObj: Partial<IBaseUser>) =>
+	await baseUserModel.findOneAndUpdate(query, updateObj);
 
 export default {
 	find,
 	findOne,
 	findOneById,
+	findOneByEmail,
 	insertOne,
 	findOneAndUpdate,
 };

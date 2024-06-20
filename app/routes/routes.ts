@@ -13,7 +13,7 @@ export const registerMiddlewares = (app: Application) => {
 	app.use(json());
 	app.use(urlencoded({ extended: true }));
 
-	// app.use(validateToken(excludedRoutes));
+	app.use(validateToken(excludedRoutes));
 
 	for (let route of routes) {
 		app.use(route.path, route.router);

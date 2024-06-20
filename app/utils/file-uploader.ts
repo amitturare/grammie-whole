@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req: Request, file: Express.Multer.File, callback: FileFilterCallback) => {
-	if (file.mimetype === "text/csv" || file.mimetype === "application/pdf") {
+	if (file.mimetype === "image/png" || file.mimetype === "image/jpeg") {
 		callback(null, true);
 	} else {
 		callback(null, false);

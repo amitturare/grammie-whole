@@ -5,6 +5,18 @@ export const elderlyResponses: IResponses = {
 		statusCode: 500,
 		message: "ELDERLY: SERVER ERR",
 	},
+	REGISTRATION_DATA_UNAVAILABLE: {
+		statusCode: 400,
+		message: "ELDERLY: REGISTRATION DATA UNAVAILABLE",
+	},
+	REGISTRATION_FAILED: {
+		statusCode: 400,
+		message: "ELDERLY: REGISTRATION FAILED",
+	},
+	REGISTRATION_SUCCESSFUL: {
+		statusCode: 200,
+		message: "ELDERLY: REGISTRATION SUCCESSFUL",
+	},
 	NOT_FOUND: {
 		statusCode: 404,
 		message: "ELDERLY: NOT FOUND",

@@ -21,7 +21,7 @@ export const validateToken = (excludedRoutes: ExcludedRoutes) => (req: Request, 
 	}
 };
 
-type Role = "admin" | "supervisor" | "user";
+type Role = "admin" | "careTaker" | "user";
 type Roles = Role[];
 
 export const permit = (roles: Role[]) => (req: Request, res: Response, next: NextFunction) => {

@@ -7,7 +7,7 @@ const envObject = z.object({
 	MONGO_URI: z.string(),
 	GOOGLE_AUTH_CLIENT_ID: z.string(),
 	GOOGLE_AUTH_CLIENT_SECRET: z.string(),
-	GOOGLE_AUTH_CALLBACK_URI: z.string(),
+	GOOGLE_AUTH_REDIRECT_URI: z.string(),
 });
 type Env = z.infer<typeof envObject>;
 

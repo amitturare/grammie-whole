@@ -1,7 +1,7 @@
 import { Types, model } from "mongoose";
 import { BaseSchema } from "../utils/base-schema";
 
-import { UserDocument } from "./user.types";
+// import { UserDocument } from "./user.types";
 
 const appointmentSchema = new BaseSchema({
 	userId: { type: Types.ObjectId, ref: "BaseUser", required: true },

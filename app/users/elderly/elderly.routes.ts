@@ -4,52 +4,13 @@ import { ResponseHandler } from "../../utils/response-handler";
 import { permit } from "../../utils/authorization";
 
 import elderlyServices from "./elderly.services";
+import { upload } from "../../utils/file-uploader";
 
 const router = Router();
 
-router.get("/", async (req, res, next) => {
+router.post("/register", upload.single("aadharCardImageUrl"), async (req, res, next) => {
 	try {
-		const result = await elderlyServices.find({});
-		res.send(new ResponseHandler(result));
-	} catch (error) {
-		next(error);
-	}
-});
-
-router.get("/:userId", async (req, res, next) => {
-	try {
-		const { userId } = req.params;
-		const result = await elderlyServices.findOneById(userId);
-		res.send(new ResponseHandler(result));
-	} catch (error) {
-		next(error);
-	}
-});
-
-router.post("/", async (req, res, next) => {
-	try {
-		const data = req.body;
-		const result = await elderlyServices.insertOne(data);
-		res.send(new ResponseHandler(result));
-	} catch (e) {
-		next(e);
-	}
-});
-
-router.patch("/:userId", async (req, res, next) => {
-	try {
-		const { userId } = req.params;
-		const result = await elderlyServices.findOneAndUpdate(userId, req.body);
-		res.send(new ResponseHandler(result));
-	} catch (e) {
-		next(e);
-	}
-});
-
-router.delete("/:userId", async (req, res, next) => {
-	try {
-		const { userId } = req.params;
-		const result = await elderlyServices.deleteOne(userId);
+		const result = await elderlyServices.register(req.currUser.id, req.body, req.file?.path);
 		res.send(new ResponseHandler(result));
 	} catch (e) {
 		next(e);

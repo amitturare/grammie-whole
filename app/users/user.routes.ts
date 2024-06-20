@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Router } from "express";
 
 import { Route } from "../routes/routes.types";
@@ -12,7 +13,7 @@ import elderlyUserRoutes from "./elderly/elderly.routes";
 const router = Router();
 
 router.use("/careTaker", careTakerRoutes);
-router.use("/elderlyUser", elderlyUserRoutes);
+router.use("/elderly", elderlyUserRoutes);
 
 router.get("/", async (req, res, next) => {
 	try {
@@ -56,7 +57,7 @@ router.post("/", async (req, res, next) => {
 router.patch("/:userId", async (req, res, next) => {
 	try {
 		const { userId } = req.params;
-		const result = await userServices.findOneAndUpdate(userId, req.body);
+		const result = await userServices.findOneAndUpdate({ _id: new Types.ObjectId(userId) }, req.body);
 		res.send(new ResponseHandler(result));
 	} catch (e) {
 		next(e);
