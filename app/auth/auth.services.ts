@@ -61,15 +61,7 @@ const authenticateWithGoogle = async (code: any) => {
 			pictureUrl: pictureUrl.trim(),
 		};
 
-		let user = await userServices.findOneAndUpdate(
-			{ email: userData.email },
-			{
-				pictureUrl: userData.pictureUrl,
-				firstName: userData.firstName,
-				lastName: userData.lastName,
-			},
-			true
-		);
+		let user = await userServices.findOneByEmail(userData.email);
 		if (!user) {
 			user = await userServices.insertOne(userData);
 		}
