@@ -6,6 +6,7 @@ import userServices from "../user.services";
 const register = async (email: string, data: ICareTakerRegister, aadharCardImageUrl: string | undefined) => {
 	try {
 		if (!aadharCardImageUrl) throw careTakerResponses.REGISTRATION_DATA_UNAVAILABLE;
+
 		const registeredData = await userServices.findOneAndUpdate(
 			{ email },
 			{

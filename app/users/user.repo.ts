@@ -15,7 +15,7 @@ const findOneByEmail = async (email: string) => await baseUserModel.findOne({ em
 const insertOne = async (user: Partial<IBaseUser>) => await baseUserModel.create(user);
 
 const findOneAndUpdate = async (query: Partial<IBaseUser>, updateObj: Partial<IBaseUser>) =>
-	await baseUserModel.findOneAndUpdate(query, updateObj);
+	await baseUserModel.findOneAndUpdate(query, updateObj, { strict: false });
 
 export default {
 	find,

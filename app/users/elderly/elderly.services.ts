@@ -6,14 +6,8 @@ import userServices from "../user.services";
 const register = async (email: string, data: IElderlyRegister, aadharCardImageUrl: string | undefined) => {
 	try {
 		if (!aadharCardImageUrl) throw elderlyResponses.REGISTRATION_DATA_UNAVAILABLE;
-		const registeredData = await userServices.findOneAndUpdate(
-			{ email },
-			{
-				...data,
-				aadharCardImageUrl,
-				role: "careTaker",
-			}
-		);
+
+		const registeredData = await userServices.findOneAndUpdate({ email }, { ...data, aadharCardImageUrl });
 		if (!registeredData) throw elderlyResponses.REGISTRATION_FAILED;
 		return elderlyResponses.REGISTRATION_SUCCESSFUL;
 	} catch (error: any) {
