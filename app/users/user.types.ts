@@ -2,7 +2,7 @@ import z from "zod";
 import { Document } from "mongoose";
 import { ZBase } from "../utils/base-schema";
 
-export const ZBaseUser = ZBase.extend({
+export const ZUser = ZBase.extend({
 	firstName: z.string(),
 	lastName: z.string(),
 	email: z.string().email(),
@@ -15,5 +15,5 @@ export const ZBaseUser = ZBase.extend({
 	role: z.string().optional(),
 });
 
-export interface IBaseUser extends z.infer<typeof ZBaseUser> {}
-export type BaseUserDocument = Document & IBaseUser;
+export interface IUser extends z.infer<typeof ZUser> {}
+export type UserDocument = Document & IUser;

@@ -3,12 +3,12 @@ import { Types } from "mongoose";
 import userRepo from "./user.repo";
 import { sanitizeQueryObject } from "../utils/sanitize-queries";
 
-import { IBaseUser } from "./user.types";
+import { IUser } from "./user.types";
 import { userResponses } from "./user.responses";
 
-const find = async (query: Partial<IBaseUser>) => await userRepo.find(query);
+const find = async (query: Partial<IUser>) => await userRepo.find(query);
 
-const findOne = async (query: Partial<IBaseUser>) => {
+const findOne = async (query: Partial<IUser>) => {
 	try {
 		const result = await userRepo.findOne(query);
 		if (!result) throw userResponses.NOT_FOUND;
@@ -41,7 +41,7 @@ const findOneByEmail = async (email: string) => {
 	}
 };
 
-const insertOne = async (data: Partial<IBaseUser>) => {
+const insertOne = async (data: Partial<IUser>) => {
 	try {
 		const result = await userRepo.insertOne(data);
 		if (!result) throw userResponses.INSERT_FAILED;
@@ -53,7 +53,7 @@ const insertOne = async (data: Partial<IBaseUser>) => {
 	}
 };
 
-const findOneAndUpdate = async (query: Partial<IBaseUser>, updateObj: Partial<IBaseUser>, safe: boolean = false) => {
+const findOneAndUpdate = async (query: Partial<IUser>, updateObj: Partial<IUser>, safe: boolean = false) => {
 	try {
 		const result = await userRepo.findOneAndUpdate(query, updateObj);
 

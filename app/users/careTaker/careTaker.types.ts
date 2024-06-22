@@ -1,9 +1,9 @@
 import z from "zod";
 import { Document } from "mongoose";
 
-import { ZBaseUser } from "../user.types";
+import { ZUser } from "../user.types";
 
-export const ZCareTaker = ZBaseUser.extend({
+export const ZCareTaker = ZUser.extend({
 	servicesOffered: z.array(z.string()).optional(),
 	workExperience: z.number().optional(),
 	ratePerMonth: z.number(),

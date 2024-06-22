@@ -1,7 +1,7 @@
 import z from "zod";
 import { Document } from "mongoose";
 
-import { ZBaseUser } from "../user.types";
+import { ZUser } from "../user.types";
 
 export const ZMedicalHistory = z.object({
 	condition: z.string().optional(),
@@ -15,7 +15,7 @@ export const ZMedication = z.object({
 	frequency: z.string().optional(),
 });
 
-export const ZElderly = ZBaseUser.extend({
+export const ZElderly = ZUser.extend({
 	medicalHistory: z.array(ZMedicalHistory).optional(),
 	medications: z.array(ZMedication).optional(),
 });

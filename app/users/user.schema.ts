@@ -1,7 +1,7 @@
 import { model } from "mongoose";
 import { BaseSchema } from "../utils/base-schema";
 
-import { BaseUserDocument } from "./user.types";
+import { UserDocument } from "./user.types";
 
 // const medicalHistorySchema = new BaseSchema({
 // 	condition: { type: String },
@@ -15,7 +15,7 @@ import { BaseUserDocument } from "./user.types";
 // 	frequency: { type: String },
 // });
 
-const baseUserSchema = new BaseSchema({
+const userSchema = new BaseSchema({
 	firstName: { type: String, required: true },
 	lastName: { type: String, required: true },
 	email: { type: String, required: true, unique: true },
@@ -35,4 +35,4 @@ const baseUserSchema = new BaseSchema({
 	// medications: [medicationSchema],
 });
 
-export const baseUserModel = model<BaseUserDocument>("users", baseUserSchema);
+export const userModel = model<UserDocument>("users", userSchema);

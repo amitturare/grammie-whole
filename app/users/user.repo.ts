@@ -1,21 +1,21 @@
 import { Types } from "mongoose";
 
-import { baseUserModel } from "./user.schema";
+import { userModel } from "./user.schema";
 
-import { IBaseUser } from "./user.types";
+import { IUser } from "./user.types";
 
-const find = async (query: Partial<IBaseUser>) => await baseUserModel.find({ ...query, isDeleted: false });
+const find = async (query: Partial<IUser>) => await userModel.find({ ...query, isDeleted: false });
 
-const findOne = async (query: Partial<IBaseUser>) => await baseUserModel.findOne({ ...query, isDeleted: false });
+const findOne = async (query: Partial<IUser>) => await userModel.findOne({ ...query, isDeleted: false });
 
-const findOneById = async (userId: Types.ObjectId) => await baseUserModel.findOne({ _id: userId, isDeleted: false });
+const findOneById = async (userId: Types.ObjectId) => await userModel.findOne({ _id: userId, isDeleted: false });
 
-const findOneByEmail = async (email: string) => await baseUserModel.findOne({ email: email, isDeleted: false });
+const findOneByEmail = async (email: string) => await userModel.findOne({ email: email, isDeleted: false });
 
-const insertOne = async (user: Partial<IBaseUser>) => await baseUserModel.create(user);
+const insertOne = async (user: Partial<IUser>) => await userModel.create(user);
 
-const findOneAndUpdate = async (query: Partial<IBaseUser>, updateObj: Partial<IBaseUser>) =>
-	await baseUserModel.findOneAndUpdate(query, updateObj, { strict: false });
+const findOneAndUpdate = async (query: Partial<IUser>, updateObj: Partial<IUser>) =>
+	await userModel.findOneAndUpdate(query, updateObj, { strict: false });
 
 export default {
 	find,
