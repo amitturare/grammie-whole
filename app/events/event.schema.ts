@@ -7,9 +7,10 @@ const eventSchema = new BaseSchema({
 	createdBy: { type: Types.ObjectId, ref: "users", required: true },
 	title: { type: String, required: true },
 	description: { type: String, required: true },
+	duration: { type: Number, required: true },
+	lastDateToEnrol: { type: Date, required: true },
 	location: { type: String, required: true },
 	dateTime: { type: Date, required: true },
-	lastDateToEnrol: { type: Date, required: true },
 	cost: { type: Number, required: true },
 	participants: [{ type: Types.ObjectId, ref: "users" }],
 });

@@ -7,31 +7,31 @@ import { authResponses } from "./auth.responses";
 import userServices from "../users/user.services";
 import { travelimpactmodel } from "googleapis/build/src/apis/travelimpactmodel";
 
-const verifyGoogleCredentials = async (accessToken: string) => {
-	try {
-		const { GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_CLIENT_SECRET } = process.env;
-		const client = new OAuth2Client(GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_CLIENT_SECRET);
-		const tokenInfo = await client.verifyIdToken({
-			idToken: accessToken,
-			audience: GOOGLE_AUTH_CLIENT_ID,
-		});
-		const profile: any = tokenInfo.getPayload();
-		if (!profile) throw authResponses.UNAUTHORIZED;
+// const verifyGoogleCredentials = async (accessToken: string) => {
+// 	try {
+// 		const { GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_CLIENT_SECRET } = process.env;
+// 		const client = new OAuth2Client(GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_CLIENT_SECRET);
+// 		const tokenInfo = await client.verifyIdToken({
+// 			idToken: accessToken,
+// 			audience: GOOGLE_AUTH_CLIENT_ID,
+// 		});
+// 		const profile: any = tokenInfo.getPayload();
+// 		if (!profile) throw authResponses.UNAUTHORIZED;
 
-		const { email, picture: pictureUrl } = profile;
-		if (!email || !pictureUrl) throw authResponses.LOGIN_FAILED;
+// 		const { email, picture: pictureUrl } = profile;
+// 		if (!email || !pictureUrl) throw authResponses.LOGIN_FAILED;
 
-		const userData = await userServices.findOneAndUpdate({ email }, { pictureUrl });
-		if (!userData) throw authResponses.NOT_FOUND;
+// 		const userData = await userServices.findOneAndUpdate({ email }, { pictureUrl });
+// 		if (!userData) throw authResponses.NOT_FOUND;
 
-		const { JWT_SECRET } = process.env;
-		const token = sign({ id: userData._id, role: userData.role }, JWT_SECRET || "");
-		return { token, role: userData.role };
-	} catch (error: any) {
-		if (error.statusCode) throw error;
-		throw authResponses.SERVER_ERR;
-	}
-};
+// 		const { JWT_SECRET } = process.env;
+// 		const token = sign({ id: userData._id, role: userData.role }, JWT_SECRET || "");
+// 		return { token, role: userData.role };
+// 	} catch (error: any) {
+// 		if (error.statusCode) throw error;
+// 		throw authResponses.SERVER_ERR;
+// 	}
+// };
 
 const authenticateWithGoogle = async (code: any) => {
 	try {
@@ -76,6 +76,6 @@ const authenticateWithGoogle = async (code: any) => {
 };
 
 export default {
-	verifyGoogleCredentials,
+	// verifyGoogleCredentials,
 	authenticateWithGoogle,
 };

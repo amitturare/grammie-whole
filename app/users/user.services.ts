@@ -60,7 +60,7 @@ const findOneAndUpdate = async (query: Partial<IUser>, updateObj: Partial<IUser>
 		if (safe) return result;
 
 		if (!result) throw userResponses.UPDATE_FAILED;
-		return result;
+		return userResponses.UPDATE_SUCCESSFUL;
 	} catch (error: any) {
 		if (error.statusCode) throw error;
 		throw userResponses.SERVER_ERR;
