@@ -19,7 +19,7 @@ export const eventResponses: IResponses = {
 	},
 	CANNOT_UPDATE: {
 		statusCode: 400,
-		message: "EVENT: CANNOT UPATE",
+		message: "EVENT: CANNOT UPDATE",
 	},
 	DELETE_FAILED: {
 		statusCode: 400,
