@@ -48,7 +48,6 @@ const insertOne = async (currUserId: string, data: Partial<IEvent>) => {
 		if (!result) throw eventResponses.INSERT_FAILED;
 		return result;
 	} catch (error: any) {
-		console.log(error);
 		if (error.statusCode) throw error;
 		throw eventResponses.SERVER_ERR;
 	}

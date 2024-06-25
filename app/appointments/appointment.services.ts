@@ -75,7 +75,6 @@ const insertOne = async (currUserId: string, caretakerId: string, data: IAppoint
 		if (!result) throw appointmentResponses.INSERT_FAILED;
 		return result;
 	} catch (error: any) {
-		console.log(error);
 		if (error.statusCode) throw error;
 		throw appointmentResponses.SERVER_ERR;
 	}

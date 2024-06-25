@@ -47,7 +47,6 @@ const insertOne = async (data: Partial<IUser>) => {
 		if (!result) throw userResponses.INSERT_FAILED;
 		return result;
 	} catch (error: any) {
-		console.log(error);
 		if (error.statusCode) throw error;
 		throw userResponses.SERVER_ERR;
 	}
