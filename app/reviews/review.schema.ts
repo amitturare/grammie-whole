@@ -4,10 +4,10 @@ import { BaseSchema } from "../utils/base-schema";
 // import { UserDocument } from "./user.types";
 
 const reviewSchema = new BaseSchema({
-	userId: { type: Types.ObjectId, ref: "BaseUser", required: true },
-	caretakerId: { type: Types.ObjectId, ref: "BaseUser", required: true },
+	userId: { type: Types.ObjectId, ref: "users", required: true },
+	caretakerId: { type: Types.ObjectId, ref: "users", required: true },
 	rating: { type: Number, required: true },
-	reviewText: { type: String },
+	feedback: { type: String },
 });
 
-export const reviewModel = model("Review", reviewSchema);
+export const reviewModel = model("reviews", reviewSchema);
