@@ -3,6 +3,15 @@ import { careTakerResponses } from "./careTaker.responses";
 
 import userServices from "../user.services";
 
+const find = async () => {
+	try {
+		return await userServices.find({ role: "careTaker" });
+	} catch (error: any) {
+		if (error.statusCode) throw error;
+		throw careTakerResponses.SERVER_ERR;
+	}
+};
+
 const register = async (email: string, data: ICareTakerRegister, aadharCardImageUrl: string | undefined) => {
 	try {
 		if (!aadharCardImageUrl) throw careTakerResponses.REGISTRATION_DATA_UNAVAILABLE;
@@ -24,5 +33,6 @@ const register = async (email: string, data: ICareTakerRegister, aadharCardImage
 };
 
 export default {
+	find,
 	register,
 };

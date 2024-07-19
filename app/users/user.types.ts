@@ -12,7 +12,7 @@ export const ZUser = ZBase.extend({
 	age: z.number(),
 	gender: z.enum(["Male", "Female", "Other"]),
 	aadharCardImageUrl: z.string(),
-	role: z.string().optional(),
+	role: z.enum(["user", "careTaker", "admin"]),
 });
 
 export interface IUser extends z.infer<typeof ZUser> {}

@@ -17,4 +17,13 @@ router.patch("/register", upload.single("aadharCardImageUrl"), async (req, res, 
 	}
 });
 
-export default router;  
+router.get("/", async (req, res, next) => {
+	try {
+		const result = await careTakerServices.find();
+		res.send(new ResponseHandler(result));
+	} catch (e) {
+		next(e);
+	}
+});
+
+export default router;
