@@ -26,4 +26,14 @@ router.get("/", async (req, res, next) => {
 	}
 });
 
+router.get("/dashboard", async (req, res, next) => {
+	try {
+		const { currUser } = req;
+		const result = await careTakerServices.getCareTakerDash(currUser.id);
+		res.send(new ResponseHandler(result));
+	} catch (e) {
+		next(e);
+	}
+});
+
 export default router;

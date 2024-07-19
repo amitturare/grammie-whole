@@ -68,6 +68,18 @@ const insertParticipant = async (eventId: string, userId: string) => {
 	}
 };
 
+const findEventsForUser = async (userId: string, safe: boolean = false) => {
+	try {
+		const result = await eventRepo.findEventsForUser(new Types.ObjectId(userId));
+		if (safe) return result;
+		if (!result) throw eventResponses.NOT_FOUND;
+		return result;
+	} catch (error: any) {
+		if (error.statusCode) throw error;
+		throw eventResponses.SERVER_ERR;
+	}
+};
+
 const findOneAndUpdate = async (eventId: string, updateObj: Partial<IEvent>) => {
 	try {
 		const event = await findOneById(eventId);
@@ -104,6 +116,7 @@ export default {
 	findOneByUserId,
 	insertOne,
 	insertParticipant,
+	findEventsForUser,
 	findOneAndUpdate,
 	deleteOne,
 };

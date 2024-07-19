@@ -17,4 +17,14 @@ router.patch("/register", upload.single("aadharCardImageUrl"), async (req, res, 
 	}
 });
 
+router.get("/dashboard", async (req, res, next) => {
+	try {
+		const { currUser } = req;
+		const result = await elderlyServices.getUserDash(currUser.id);
+		res.send(new ResponseHandler(result));
+	} catch (e) {
+		next(e);
+	}
+});
+
 export default router;

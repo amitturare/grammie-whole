@@ -23,6 +23,11 @@ const insertParticipant = async (eventId: Types.ObjectId, userId: Types.ObjectId
 		}
 	);
 
+const findEventsForUser = async (userId: Types.ObjectId) => {
+	const events = await eventModel.find({ participants: userId }).populate("participants", "createdBy");
+	return events;
+};
+
 const findOneAndUpdate = async (query: Partial<IEvent>, updateObj: Partial<IEvent>) =>
 	await eventModel.findOneAndUpdate(query, updateObj);
 
@@ -33,5 +38,6 @@ export default {
 	findOneByUserId,
 	insertOne,
 	insertParticipant,
+	findEventsForUser,
 	findOneAndUpdate,
 };

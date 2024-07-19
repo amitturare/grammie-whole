@@ -55,6 +55,16 @@ const findOneByCareTakerId = async (caretakerId: string) => {
 	}
 };
 
+const findAvgRatingForCareTaker = async (caretakerId: string) => {
+	try {
+		const result = await reviewRepo.findAvgRatingForCareTaker(new Types.ObjectId(caretakerId));
+		return result;
+	} catch (error: any) {
+		if (error.statusCode) throw error;
+		throw reviewResponses.SERVER_ERR;
+	}
+};
+
 const insertOne = async (currUserId: string, caretakerId: string, data: IReviewCreation) => {
 	try {
 		const review = await findOne(
@@ -107,6 +117,7 @@ export default {
 	findOneById,
 	findOneByUserId,
 	findOneByCareTakerId,
+	findAvgRatingForCareTaker,
 	insertOne,
 	findOneAndUpdate,
 	deleteOne,
