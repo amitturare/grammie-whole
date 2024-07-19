@@ -30,9 +30,10 @@ const findOneById = async (userId: string) => {
 	}
 };
 
-const findOneByEmail = async (email: string) => {
+const findOneByEmail = async (email: string, safe: boolean = false) => {
 	try {
 		const result = await userRepo.findOneByEmail(email);
+		if (safe) return result;
 		if (!result) throw userResponses.NOT_FOUND;
 		return result;
 	} catch (error: any) {

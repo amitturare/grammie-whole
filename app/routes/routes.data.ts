@@ -11,6 +11,7 @@ import { ExcludedRoutes, Route } from "./routes.types";
 export const routes: Route[] = [authRoutes, userRoutes, eventRoutes, appointmentRoutes, reviewRoutes];
 
 export const excludedRoutes: ExcludedRoutes = [
+	{ path: match("/api/auth/google"), method: "POST" },
 	{ path: match("/api/auth/google"), method: "GET" },
 	{ path: match("/api/auth/google/callback"), method: "GET" },
 ];

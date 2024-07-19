@@ -25,7 +25,7 @@ const userSchema = new BaseSchema({
 	age: { type: Number },
 	gender: { type: String, enum: ["Male", "Female", "Other"] },
 	aadharCardImageUrl: { type: String },
-	role: { type: String, enum: ["user", "careTaker", "admin"], default: "user" },
+	role: { type: String, enum: ["user", "careTaker", "admin"], default: null },
 
 	// servicesOffered: [{ type: String }],
 	// workExperience: { type: Number },

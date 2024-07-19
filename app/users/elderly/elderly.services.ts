@@ -7,7 +7,10 @@ const register = async (email: string, data: IElderlyRegister, aadharCardImageUr
 	try {
 		if (!aadharCardImageUrl) throw elderlyResponses.REGISTRATION_DATA_UNAVAILABLE;
 
-		const registeredData = await userServices.findOneAndUpdate({ email }, { ...data, aadharCardImageUrl });
+		const registeredData = await userServices.findOneAndUpdate(
+			{ email },
+			{ ...data, aadharCardImageUrl, role: "user" }
+		);
 		if (!registeredData) throw elderlyResponses.REGISTRATION_FAILED;
 		return elderlyResponses.REGISTRATION_SUCCESSFUL;
 	} catch (error: any) {
