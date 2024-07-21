@@ -28,10 +28,24 @@ router.get("/user/:userId", async (req, res, next) => {
 	}
 });
 
-router.get("/careTaker/:careTakerId", async (req, res, next) => {
+router.get("/careTaker/curr", async (req, res, next) => {
 	try {
-		const { careTakerId } = req.params;
-		const result = await appointmentServices.findOneByCareTakerId(careTakerId);
+		const { currUser } = req;
+		const { status } = req.query;
+		const result = await appointmentServices.findByCareTakerId(
+			currUser._id,
+			status as "accepted" | "rejected" | "pending"
+		);
+		res.send(new ResponseHandler(result));
+	} catch (error) {
+		next(error);
+	}
+});
+
+router.get("/careTaker/terminated", async (req, res, next) => {
+	try {
+		const { currUser } = req;
+		const result = await appointmentServices.findAllTerminatedByCareTakerId(currUser._id);
 		res.send(new ResponseHandler(result));
 	} catch (error) {
 		next(error);

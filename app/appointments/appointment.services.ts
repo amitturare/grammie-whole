@@ -44,9 +44,26 @@ const findOneByUserId = async (userId: string) => {
 	}
 };
 
-const findOneByCareTakerId = async (caretakerId: string) => {
+const findByCareTakerId = async (caretakerId: string, status: "accepted" | "rejected" | "pending") => {
 	try {
-		const result = await appointmentRepo.findOneByCareTakerId(new Types.ObjectId(caretakerId));
+		const result = await find({
+			caretakerId: new Types.ObjectId(caretakerId),
+			status,
+		});
+		if (!result) throw appointmentResponses.NOT_FOUND;
+		return result;
+	} catch (error: any) {
+		if (error.statusCode) throw error;
+		throw appointmentResponses.SERVER_ERR;
+	}
+};
+
+const findAllTerminatedByCareTakerId = async (caretakerId: string) => {
+	try {
+		const result = await find({
+			caretakerId: new Types.ObjectId(caretakerId),
+			isTerminated: true,
+		});
 		if (!result) throw appointmentResponses.NOT_FOUND;
 		return result;
 	} catch (error: any) {
@@ -135,7 +152,8 @@ export default {
 	findOne,
 	findOneById,
 	findOneByUserId,
-	findOneByCareTakerId,
+	findByCareTakerId,
+	findAllTerminatedByCareTakerId,
 	insertOne,
 	findOneAndUpdate,
 	findOneAndUpdateStatus,

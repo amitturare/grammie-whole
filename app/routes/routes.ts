@@ -26,7 +26,7 @@ export const registerMiddlewares = (app: Application) => {
 
 
 /*
-user amit.turare@coditas.com 
+careTaker amit.turare@coditas.com 
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzViNGQ1MzE5YTViZTI1OWEwMWQxZSIsImVtYWlsIjoiYW1pdC50dXJhcmVAY29kaXRhcy5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTcxOTE2NDAzOX0.xs7-y3rfoviwtxHjYqC2IVnXBMyECq_xzMxlZeZGG3w
 
 user sunidhichopada18@gmail.com

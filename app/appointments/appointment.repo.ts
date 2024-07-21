@@ -13,7 +13,7 @@ const findOneById = async (appointmentId: Types.ObjectId) =>
 
 const findOneByUserId = async (userId: Types.ObjectId) => await appointmentModel.findOne({ userId, isDeleted: false });
 
-const findOneByCareTakerId = async (caretakerId: Types.ObjectId) =>
+const findByCareTakerId = async (caretakerId: Types.ObjectId) =>
 	await appointmentModel.findOne({ caretakerId, isDeleted: false });
 
 const insertOne = async (appointment: Partial<IAppointment>) => await appointmentModel.create(appointment);  
@@ -26,7 +26,7 @@ export default {
 	findOne,
 	findOneById,
 	findOneByUserId,
-	findOneByCareTakerId,
+	findByCareTakerId,
 	insertOne,
 	findOneAndUpdate,
 };
