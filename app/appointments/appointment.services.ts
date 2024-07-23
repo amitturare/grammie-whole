@@ -33,9 +33,9 @@ const findOneById = async (appointmentId: string) => {
 	}
 };
 
-const findOneByUserId = async (userId: string) => {
+const findByUserId = async (userId: string) => {
 	try {
-		const result = await appointmentRepo.findOneByUserId(new Types.ObjectId(userId));
+		const result = await appointmentRepo.findByUserId(new Types.ObjectId(userId));
 		if (!result) throw appointmentResponses.NOT_FOUND;
 		return result;
 	} catch (error: any) {
@@ -151,7 +151,7 @@ export default {
 	find,
 	findOne,
 	findOneById,
-	findOneByUserId,
+	findByUserId,
 	findByCareTakerId,
 	findAllTerminatedByCareTakerId,
 	insertOne,

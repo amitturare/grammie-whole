@@ -12,7 +12,7 @@ export const registerMiddlewares = (app: Application) => {
 	app.use(cors(corsOptions));
 	app.use(json());
 	app.use(urlencoded({ extended: true }));
-
+  
 	app.use(validateToken(excludedRoutes));
 
 	for (let route of routes) {

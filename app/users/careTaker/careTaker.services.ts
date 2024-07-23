@@ -7,7 +7,7 @@ import reviewServices from "../../reviews/review.services";
 
 const find = async () => {
 	try {
-		return await userServices.find({ role: "careTaker" });
+		return await userServices.findCareTakerWithReviews();
 	} catch (error: any) {
 		if (error.statusCode) throw error;
 		throw careTakerResponses.SERVER_ERR;

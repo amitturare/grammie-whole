@@ -42,6 +42,15 @@ const findOneByEmail = async (email: string, safe: boolean = false) => {
 	}
 };
 
+const findCareTakerWithReviews = async () => {
+	try {
+		return await userRepo.findCareTakerWithReviews();
+	} catch (error: any) {
+		if (error.statusCode) throw error;
+		throw userResponses.SERVER_ERR;
+	}
+};
+
 const insertOne = async (data: Partial<IUser>) => {
 	try {
 		const result = await userRepo.insertOne(data);
@@ -83,6 +92,7 @@ export default {
 	findOne,
 	findOneById,
 	findOneByEmail,
+	findCareTakerWithReviews,
 	insertOne,
 	findOneAndUpdate,
 	deleteOne,
