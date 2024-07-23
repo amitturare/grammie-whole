@@ -44,7 +44,17 @@ const findByUserId = async (userId: string) => {
 	}
 };
 
-const findByCareTakerId = async (caretakerId: string, status: "accepted" | "rejected" | "pending") => {
+const findByCareTakerId = async (caretakerId: string) => {
+	try {
+		const result = await appointmentRepo.findByCareTakerId(new Types.ObjectId(caretakerId));
+		return result;
+	} catch (error: any) {
+		if (error.statusCode) throw error;
+		throw appointmentResponses.SERVER_ERR;
+	}
+};
+
+const findByCareTakerIdWithStatus = async (caretakerId: string, status: "accepted" | "rejected" | "pending") => {
 	try {
 		const result = await find({
 			caretakerId: new Types.ObjectId(caretakerId),
@@ -153,6 +163,7 @@ export default {
 	findOneById,
 	findByUserId,
 	findByCareTakerId,
+	findByCareTakerIdWithStatus,
 	findAllTerminatedByCareTakerId,
 	insertOne,
 	findOneAndUpdate,

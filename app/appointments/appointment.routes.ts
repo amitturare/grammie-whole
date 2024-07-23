@@ -32,7 +32,11 @@ router.get("/careTaker/curr", async (req, res, next) => {
 	try {
 		const { currUser } = req;
 		const { status } = req.query;
-		const result = await appointmentServices.findByCareTakerId(
+		if (!status) {
+			const result = await appointmentServices.findByCareTakerId(currUser.id);
+			res.send(new ResponseHandler(result));
+		}
+		const result = await appointmentServices.findByCareTakerIdWithStatus(
 			currUser.id,
 			status as "accepted" | "rejected" | "pending"
 		);
@@ -62,7 +66,7 @@ router.get("/:appointmentId", async (req, res, next) => {
 	}
 });
 
-router.post("/:careTakerId", permit(["user"]), async (req, res, next) => {
+router.post("/:careTakerId", async (req, res, next) => {
 	try {
 		const data = req.body;
 		const { careTakerId } = req.params;
@@ -95,7 +99,7 @@ router.patch("/terminate/:appointmentId", async (req, res, next) => {
 	}
 });
 
-router.delete("/:appointmentId", permit(["user"]), async (req, res, next) => {
+router.delete("/:appointmentId", async (req, res, next) => {
 	try {
 		const { appointmentId } = req.params;
 		const result = await appointmentServices.deleteOne(appointmentId);
